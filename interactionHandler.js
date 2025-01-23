@@ -56,7 +56,8 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             // Fetches a random emoji to send from a helper function
             content: 
 `
-Brendan missed smite at ${last_id === 0 ? last_entry : timestampToUTCEastCoast(last_entry?.createdAt)}
+Brendan missed smite at ${timestampToUTCEastCoast(new_entry?.createdAt)}
+Last missed smite: ${last_id === 0 ? last_entry : timestampToUTCEastCoast(last_entry?.createdAt)}
 Total: **${new_entry.id}**,
 `,
           },
