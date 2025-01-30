@@ -38,17 +38,6 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             console.error(err)
         })
 
-        let last_id = new_entry?.id - 1
-        let last_entry = ''
-
-        if(last_id === 0){
-            last_entry = '**FIRST RECORDED SMITE MISS**'
-        }else{
-            last_entry = await smite_table.findOne({id: last_id}).catch((err)=>{
-                console.error(err)
-            })
-        }
-
         // Send a message into the channel where command was triggered from
         return res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -57,7 +46,6 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             content: 
 `
 Brendan missed smite at ${timestampToUTCEastCoast(new_entry?.createdAt)}
-Last missed smite: ${last_id === 0 ? last_entry : timestampToUTCEastCoast(last_entry?.createdAt)}
 Total: **${new_entry.id}**,
 `,
           },
